@@ -1,0 +1,19 @@
+.app-div {
+  margin: 25% 15%;
+}
+
+.array-div {
+  display: flex;
+}
+
+.node {
+  background-color: powderblue;
+  border-style: double;
+  display: inline-block;
+  margin-left: 3px;
+  flex-basis: 100%;
+}
+
+.buttons-div {
+  margin-top: 10%;
+}
