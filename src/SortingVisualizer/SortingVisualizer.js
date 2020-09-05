@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './SortingVisualizer.css';
+import { bubbleSort } from '../SortingAlgorithms/BubbleSort';
+import { insertionSort } from '../SortingAlgorithms/InsertionSort';
+import { quickSort } from '../SortingAlgorithms/QuickSort';
 
 export class SortingVisualizer extends Component {
 
@@ -22,24 +25,26 @@ export class SortingVisualizer extends Component {
   }
 
   bubbleSort() {
-    const {array} = this.state;
-
+    this.setState(bubbleSort(this.state.array));
   }
 
   insertionSort() {
-    const {array} = this.state;
-
+    this.setState(insertionSort(this.state.array));
   }
 
   quickSort() {
     const {array} = this.state;
-
+    this.setState({array});
   }
+
+  // ------------------------------------------------------------------------------
 
   mergeSort() {
     const {array} = this.state;
-
+    this.setState({array});
   }
+
+  // ------------------------------------------------------------------------------
 
 
   render() {
@@ -55,8 +60,8 @@ export class SortingVisualizer extends Component {
         </div>
         <div className="buttons-div">
           <button onClick={() => this.generateArray()}>Generate New Array</button>
-          <button>Bubble Sort</button>
-          <button>Insertion Sort</button>
+          <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
+          <button onClick={() => this.insertionSort()}>Insertion Sort</button>
           <button>Quick Sort</button>
           <button>Merge Sort</button>
         </div>
