@@ -3,6 +3,7 @@ import './SortingVisualizer.css';
 import { bubbleSort } from '../SortingAlgorithms/BubbleSort';
 import { insertionSort } from '../SortingAlgorithms/InsertionSort';
 import { quickSort } from '../SortingAlgorithms/QuickSort';
+import { mergeSort } from '../SortingAlgorithms/MergeSort';
 
 export class SortingVisualizer extends Component {
 
@@ -33,19 +34,12 @@ export class SortingVisualizer extends Component {
   }
 
   quickSort() {
-    const {array} = this.state;
-    this.setState({array});
+    this.setState(quickSort(this.state.array, 0, this.state.array.length - 1));
   }
-
-  // ------------------------------------------------------------------------------
 
   mergeSort() {
-    const {array} = this.state;
-    this.setState({array});
+    this.setState(mergeSort(this.state.array, 0, this.state.array.length - 1));
   }
-
-  // ------------------------------------------------------------------------------
-
 
   render() {
 
@@ -62,10 +56,9 @@ export class SortingVisualizer extends Component {
           <button onClick={() => this.generateArray()}>Generate New Array</button>
           <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
           <button onClick={() => this.insertionSort()}>Insertion Sort</button>
-          <button>Quick Sort</button>
-          <button>Merge Sort</button>
-        </div>
-        
+          <button onClick={() => this.quickSort()}>Quick Sort</button>
+          <button onClick={() => this.mergeSort()}>Merge Sort</button>
+        </div>  
       </div>   
     )
   }
