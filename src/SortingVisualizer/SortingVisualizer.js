@@ -26,7 +26,46 @@ export class SortingVisualizer extends Component {
   }
 
   bubbleSort() {
-    this.setState(bubbleSort(this.state.array));
+    let {array} = this.state;
+    const nodes = document.getElementsByClassName("node");
+    console.log(nodes);
+    let animations = bubbleSort(array);
+    
+    for (let index = 0; index < animations.length; index++) {
+
+      if (animations[index].mode === 0) {
+        setTimeout(() => {
+
+          // Change color to highlight comparison
+          nodes[animations[index].indices[0]].style.backgroundColor = "lightgreen";
+          nodes[animations[index].indices[1]].style.backgroundColor = "lightgreen";
+
+        }, index * 150);
+      } else if (animations[index].mode === 1) {
+        setTimeout(() => {
+
+          // Visually changing the values
+          let oldValue = nodes[animations[index].indices[0]].innerHTML;
+          nodes[animations[index].indices[0]].innerHTML = nodes[animations[index].indices[1]].innerHTML;
+          nodes[animations[index].indices[1]].innerHTML = oldValue;
+
+
+          // Color them back to main color
+          nodes[animations[index].indices[0]].style.backgroundColor = "yellow";
+          nodes[animations[index].indices[1]].style.backgroundColor = "yellow";
+
+        }, index * 150);
+      } else {
+        setTimeout(() => {
+          
+          // Color the back to clear the comparison
+          nodes[animations[index].indices[0]].style.backgroundColor = "powderblue";
+          nodes[animations[index].indices[1]].style.backgroundColor = "powderblue";
+
+        }, index * 150);
+      }
+    }
+
   }
 
   insertionSort() {
