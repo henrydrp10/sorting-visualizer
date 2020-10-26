@@ -6,7 +6,7 @@ import { insertionSort } from '../SortingAlgorithms/InsertionSort';
 import { quickSortCall } from '../SortingAlgorithms/QuickSort';
 import { mergeSort } from '../SortingAlgorithms/MergeSort';
 
-const ALGO_SPEED = 400;
+const ALGO_SPEED = 500;
 
 export class SortingVisualizer extends Component {
 
