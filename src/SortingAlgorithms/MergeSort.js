@@ -8,6 +8,7 @@ export function mergeSort(array, start, end) {
   return array;
 }
 
+
 function merge(array, start, mid, end) {
   let lower_size = (mid + 1) - start;
   let upper_size = (end - mid);

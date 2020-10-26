@@ -1,14 +1,13 @@
 .app-div {
-  margin: 35% 10%;
+  margin: 5% 10%;
 }
 
 .array-div {
   display: flex;
-  padding-top: 1000px;
+  padding-top: 100px;
 }
 
 .node {
-  background-color: powderblue;
   border-style: double;
   display: inline-block;
   margin-left: 3px;
@@ -18,3 +17,4 @@
 .buttons-div {
   margin-top: 10%;
 }
+
