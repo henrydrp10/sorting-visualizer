@@ -358,7 +358,7 @@ export class SortingVisualizer extends Component {
           <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
           <button onClick={() => this.insertionSort()}>Insertion Sort</button>
           <button onClick={() => this.quickSort()}>Quick Sort</button>
-          <button onClick={() => this.mergeSort()}>Merge Sort</button>
+          {/* <button onClick={() => this.mergeSort()}>Merge Sort</button> */}
         </div>  
       </div>   
     )
