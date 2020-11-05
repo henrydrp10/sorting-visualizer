@@ -6,7 +6,7 @@ import { insertionSort } from '../SortingAlgorithms/InsertionSort';
 import { quickSortCall } from '../SortingAlgorithms/QuickSort';
 import { mergeSort } from '../SortingAlgorithms/MergeSort';
 
-const ALGO_SPEED = 500;
+const ALGO_SPEED = 100;
 
 export class SortingVisualizer extends Component {
 
@@ -36,7 +36,6 @@ export class SortingVisualizer extends Component {
   bubbleSort() {
     let {array} = this.state;
     const nodes = document.getElementsByClassName("node");
-    console.log(nodes);
     let animations = bubbleSort(array);
     
     for (let index = 0; index < animations.length; index++) {
@@ -91,9 +90,8 @@ export class SortingVisualizer extends Component {
   insertionSort() {
     let {array} = this.state;
     const nodes = document.getElementsByClassName("node");
+    let initialLength = nodes.length;
     let animations = insertionSort(array);
-
-    console.log(nodes);
 
 
     for (let index = 0; index < animations.length; index++) {
@@ -125,7 +123,7 @@ export class SortingVisualizer extends Component {
         setTimeout(() => {
 
           // Change color to highlight comparison
-          nodes[animations[index].indices[0] + 14].style.backgroundColor = "lightgreen";
+          nodes[animations[index].indices[0] + (initialLength - 1)].style.backgroundColor = "lightgreen";
           nodes[animations[index].indices[1]].style.backgroundColor = "lightgreen";
 
         }, index * ALGO_SPEED);
@@ -160,15 +158,15 @@ export class SortingVisualizer extends Component {
         setTimeout(() => {
           
           nodes[animations[index].indices[0]].style.backgroundColor = "orange";
-          nodes[animations[index].indices[1] + 14].style.backgroundColor = "orange";
-          nodes[animations[index].indices[0]].innerHTML = nodes[animations[index].indices[1] + 14].innerHTML;
+          nodes[animations[index].indices[1] + (initialLength - 1)].style.backgroundColor = "orange";
+          nodes[animations[index].indices[0]].innerHTML = nodes[animations[index].indices[1] + (initialLength - 1)].innerHTML;
 
         }, index * ALGO_SPEED);
 
         setTimeout(() => {
           
           nodes[animations[index].indices[0]].style.backgroundColor = "transparent";
-          $(nodes[animations[index].indices[1] + 14]).hide();
+          $(nodes[animations[index].indices[1] + (initialLength - 1)]).hide();
 
         }, (index + 1) * ALGO_SPEED);
 
@@ -181,8 +179,8 @@ export class SortingVisualizer extends Component {
     let {array} = this.state;
     const nodes = document.getElementsByClassName("node");
     let animations = quickSortCall(array);
-    let newLeftPivot = 0;
-    let newRightPivot = 0;
+    let newLeftPivot = null;
+    let newRightPivot = null;
 
     for (let index = 0; index < animations.length; index++) {
 
@@ -200,7 +198,7 @@ export class SortingVisualizer extends Component {
         setTimeout(() => {
           
           // Left pivot
-          if (newLeftPivot) {
+          if (newLeftPivot && newLeftPivot.style.backgroundColor !== "orange") {
             newLeftPivot.style.backgroundColor = "transparent";
           }
           nodes[animations[index].indices[0]].style.backgroundColor = "lightskyblue";
@@ -213,10 +211,10 @@ export class SortingVisualizer extends Component {
         setTimeout(() => {
           
           // Right pivot
-          if (newRightPivot) {
+          if (newRightPivot && newRightPivot.style.backgroundColor !== "orange") {
             newRightPivot.style.backgroundColor = "transparent";
           }
-          nodes[animations[index].indices[0]].style.backgroundColor = "red";
+          nodes[animations[index].indices[0]].style.backgroundColor = "darksalmon";
           newRightPivot = nodes[animations[index].indices[0]];
 
         }, index * ALGO_SPEED);
@@ -235,8 +233,8 @@ export class SortingVisualizer extends Component {
         setTimeout(() => {
           
           // Color the back to clear the comparison
-          nodes[animations[index].indices[0]].style.backgroundColor = "transparent";
-          nodes[animations[index].indices[1]].style.backgroundColor = "transparent";
+          // nodes[animations[index].indices[0]].style.backgroundColor = "transparent";
+          // nodes[animations[index].indices[1]].style.backgroundColor = "transparent";
 
         }, (index + 1) * ALGO_SPEED);
 
@@ -249,7 +247,8 @@ export class SortingVisualizer extends Component {
           nodes[animations[index].indices[0]].innerHTML = nodes[animations[index].indices[1]].innerHTML;
           nodes[animations[index].indices[1]].innerHTML = oldValue;
 
-          nodes[animations[index].indices[0]].style.backgroundColor = "lightskyblue";
+          nodes[animations[index].indices[0]].style.backgroundColor = "orange";
+          nodes[animations[index].indices[1]].style.backgroundColor = "transparent";
 
         }, index * ALGO_SPEED);
 
@@ -279,8 +278,16 @@ export class SortingVisualizer extends Component {
           });
 
           $(".array-div").append(clonedPivot);
-  
-          nodes[animations[index].indices[1]].style.backgroundColor = "transparent";
+
+          nodes[animations[index].indices[0]].style.backgroundColor = "transparent";
+
+          if (newLeftPivot) {
+            newLeftPivot.style.backgroundColor = "transparent";
+          }
+          
+          if (newRightPivot) {
+            newRightPivot.style.backgroundColor = "transparent";
+          }
 
         }, (index + 1) * ALGO_SPEED);
 
@@ -293,50 +300,89 @@ export class SortingVisualizer extends Component {
     
     let {array} = this.state;
     const nodes = document.getElementsByClassName("node");
+    let initialLength = nodes.length;
     let animations = mergeSort(array, 0, array.length - 1);
+
+    for (let index = 0; index < initialLength; index++) {
+      
+      var rect = nodes[index].getBoundingClientRect();
+
+          var position = {
+            top: rect.top + window.pageYOffset,
+            left: rect.left + window.pageXOffset
+          };
+
+          var clonedPivot = nodes[index].cloneNode(true);
+          clonedPivot.innerHTML = "";
+          $(clonedPivot).css({
+            'position': "absolute",
+            'left': `${position.left - 3}px`,
+            'top': `${position.top - 45}px`,
+            'height': `${$(nodes[index]).height()}px`,
+            'width': `${$(nodes[index]).width()}px`
+          });
+
+          $(".array-div").append(clonedPivot);
+
+    }
 
     for (let index = 0; index < animations.length; index++) {
 
       if (animations[index].mode === 0) {
-        
+      
         setTimeout(() => {
-
-          for (let i = animations[index].indices[0]; i < animations[index].indices[1]; i++) {
-            
-            var rect = nodes[i].getBoundingClientRect();
-
-            var position = {
-              top: rect.top + window.pageYOffset,
-              left: rect.left + window.pageXOffset
-            };
-
-            var clonedPivot = nodes[i].cloneNode(true);
-            $(clonedPivot).css({
-              'position': "absolute",
-              'left': `${position.left - 3}px`,
-              'top': `${position.top - 45}px`,
-              'width': `${$(nodes[i]).width()}px`
-            });
-
-            $(".array-div").append(clonedPivot);
-            
+          
+          for (let index = initialLength; index < nodes.length; index++) {
+            nodes[index].innerHTML = "";
           }
 
         }, index * ALGO_SPEED);
 
+        setTimeout(() => {
+          
+          for (let sortIndex = animations[index].indices[0]; sortIndex <= animations[index].indices[1]; sortIndex++) {
+            nodes[sortIndex + initialLength].innerHTML = nodes[sortIndex].innerHTML;
+          }
+
+        }, (index + 1) * ALGO_SPEED);
+
       } else if (animations[index].mode === 1) {
 
-        
+        setTimeout(() => {
+
+          // Change color to highlight comparison
+          nodes[animations[index].indices[0] + initialLength].style.backgroundColor = "lightgreen";
+          nodes[animations[index].indices[1] + initialLength].style.backgroundColor = "lightgreen";
+
+        }, index * ALGO_SPEED);
+
+        setTimeout(() => {
+          
+          // Color the back to clear the comparison
+          nodes[animations[index].indices[0] + initialLength].style.backgroundColor = "transparent";
+          nodes[animations[index].indices[1] + initialLength].style.backgroundColor = "transparent";
+
+        }, (index + 1) * ALGO_SPEED);
         
       } else if (animations[index].mode === 2) {
-        
-        
 
-      } else if (animations[index].mode === 3) {
-        
-        
+        setTimeout(() => {
+          
+          nodes[animations[index].indices[0]].style.backgroundColor = "yellow";
+          nodes[animations[index].indices[1] + initialLength].style.backgroundColor = "yellow";
+          nodes[animations[index].indices[0]].innerHTML = nodes[animations[index].indices[1] + initialLength].innerHTML;
+          nodes[animations[index].indices[1] + initialLength].innerHTML = "";
 
-      }
+        }, index * ALGO_SPEED);
+
+        setTimeout(() => {
+          
+          nodes[animations[index].indices[0]].style.backgroundColor = "transparent";
+          nodes[animations[index].indices[1] + initialLength].style.backgroundColor = "transparent";
+
+        }, (index + 1) * ALGO_SPEED);
+
+      } 
       
     }
 
@@ -358,7 +404,7 @@ export class SortingVisualizer extends Component {
           <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
           <button onClick={() => this.insertionSort()}>Insertion Sort</button>
           <button onClick={() => this.quickSort()}>Quick Sort</button>
-          {/* <button onClick={() => this.mergeSort()}>Merge Sort</button> */}
+          <button onClick={() => this.mergeSort()}>Merge Sort</button>
         </div>  
       </div>   
     )
